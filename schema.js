@@ -19,7 +19,7 @@ const BookType = new GraphQLObjectType({
       resolve: xml =>
         xml.GoodreadsResponse.book[0].title[0]
     },
-    isbn:{
+    isbn: {
       type:GraphQLString,
       resolve: xml =>
         xml.GoodreadsResponse.book[0].isbn[0]
@@ -45,7 +45,7 @@ const AuthorType = new GraphQLObjectType({
         resolve: xml => {
           const ids = xml.GoodreadsResponse.author[0].books[0].book.map(element => element.id[0]._)//xml2js makes yo do this weird bit here
           return Promise.all(ids.map(id =>
-            fetch (`https://www.goodreads.com/book/${id}.xml?&key=GQvDgtwIQm8YRUJyiz5eA`)
+            fetch (`https://www.goodreads.com/book/show.xml?id=${id}&key=GQvDgtwIQm8YRUJyiz5eA`)
               .then(response => response.text())
               .then(parseXML)
           ))
